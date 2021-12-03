@@ -1,1 +1,5 @@
-Weather App built using React.js
+# Starter Files
+
+Alex Bejenaru
+
+Live Preview: 
