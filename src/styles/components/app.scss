@@ -22,6 +22,21 @@
             width: 50%;
             position: relative;
             z-index: 5;
+
+            @include breakpoint-down(large) {
+                height: 80%;
+                width: 70%;
+            }
+
+            @include breakpoint-down(medium) {
+                height: 80%;
+                width: 80%;
+            }
+
+            @include breakpoint-down(small) {
+                height: 95%;
+                width: 90%;
+            }
             
             .bg {
                 border-radius: rem(25px);
@@ -41,10 +56,20 @@
                 // color: hsl(240, 100%, 25%);
                 width: rem(200px);
                 height: rem(200px);
+
+                @include breakpoint-down(small) {
+                    margin-top: rem(-30px);
+                    width: rem(150px);
+                    height: rem(150px);
+                }
             }
 
             .app-title-secondary {
                 margin-bottom: rem(10px);
+                
+                @include breakpoint-down(small) {
+                    padding: 3%;
+                }
             }
             .form {
                 display: flex;
@@ -53,12 +78,22 @@
 
                 input {
                     padding: rem(15px) rem(30px);
-                    font-size: rem(40px);
+                    font-size: rem(30px);
+                    width: 80%;
                     text-align: center;
                     font-family: var(--font-general);
                     font-weight: var(--font-bold);
                     border-radius: rem(25px);
                     margin-bottom: rem(25px);
+                    
+                    @include breakpoint-down(large) {
+                        font-size: rem(20px);
+                    }
+
+                    @include breakpoint-down(medium) {
+                        padding: rem(5px) 0;
+                        width: 90%;
+                    }
                 }
 
                 button {
@@ -72,6 +107,11 @@
                     font-family: var(--font-general);
                     font-weight: var(--font-semi-bold);
                     font-size: rem(20px);
+
+                    @include breakpoint-down(medium) {
+                        width: rem(150px);
+                        height: rem(50px);
+                    }
 
                     &:hover {
                         background-color: white;
