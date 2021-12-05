@@ -67,7 +67,13 @@
             .app-title-secondary {
                 margin-bottom: rem(10px);
                 
-                @include breakpoint-down(small) {
+                @include breakpoint-down(medium) {
+                    padding: 3%;
+                }
+            }
+            
+            .card-data {
+                .title {
                     padding: 3%;
                 }
             }
