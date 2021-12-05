@@ -1,9 +1,17 @@
 // import useFetch from "../hooks/useFetch";
 import { useState, useEffect } from "react";
+import styled from "styled-components";
+import clearSky from '../images/sunny-weather.jpg';
+import athmosphere from '../images/mist.jpg';
+import clouds from '../images/clouds.jpg';
+import rain from '../images/rain.jpg';
+import drizzle from '../images/drizzle.jpg';
+import snow from '../images/snow.jpg';
+import logo from '../images/watchinWeather-logos_transparent.png'
+import basic from '../images/bg.png';
 
 const GetWeatherInfo = () => {
     const apiKey = '93191bed2adf5d8525042cddb1e5c027';
-    const cityy = 'Bucharest';
     const [ city, setCity ] = useState('');
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}`;
 
@@ -47,6 +55,7 @@ const GetWeatherInfo = () => {
             setImg(data.weather[0].icon);
             setIsPending(false);
             setDescription(data.weather[0].main);
+            console.log(description);
             setError(null);
         })
         .catch((err) => {
@@ -57,10 +66,9 @@ const GetWeatherInfo = () => {
                 setError(err.message);
             }
         })
-
         
         return () => abortCont.abort();
-    }, [city]);
+    }, [url]);
     
     const handleChange = (e) => {
         setNewCity(e.target.value);
@@ -68,8 +76,12 @@ const GetWeatherInfo = () => {
     
     const handleClick = (e) => {
         e.preventDefault();
+        if (setNewCity !== '') {
         setCity(newCity);
         setNewCity('');
+        } else {
+            return 'Enter a city';
+        }
     }
 
     const [ newCity, setNewCity ] = useState('');
@@ -79,33 +91,89 @@ const GetWeatherInfo = () => {
             return 'app-container clear-sky';
         } else if (description ==='Clouds') {
             return 'app-container clouds';
+        } else if (description ==='Snow') {
+            return 'app-container snow';
+        } else if (description ==='Drizzle') {
+            return 'app-container drizzle';
+        } else if (description ==='Rain') {
+            return 'app-container rain';
+        } else if (description ==='Mist' || description ==='Smoke' || description ==='Haze' || description ==='Dust' || description ==='Fog' || description ==='Sand' || description ==='Dust' || description ==='Ash' || description ==='Squall' || description ==='Tornado') {
+            return 'app-container athmosphere';
         } else {
-            return 'app-container';
+            return 'app-container basic';
         }
     }
+
+    if (currentCity === '' && city === '') {
+        return (<></>);
+    }
+
     return ( 
-    <>
+    <Wrapper>
         {isPending && <div>Loading...</div>}
         <div className={backgroundChange()}>
             <div className='container'>
+                <div className="bg"></div>
+                <img className="app-title" src={logo} alt="watchingWeather" />
+                <h2 className="app-title-secondary">Check out the weather in your city!</h2>
                 <form className="form">
                     <input required type="text" placeholder="Enter the city" value={newCity} onChange={handleChange}/>
                     <button type="submit" onClick={(e) => handleClick(e)}>Search</button>
                 </form>
-                {(data && temp === 0 && tempMin === 0 && tempMax === 0) ? (<></>) : (
-                <>
+                {(data && temp == 0 && tempMin === 0 && tempMax === 0) ? (<></>) : (
+                <div className="card-data">
                     <h1 className='title'>Your current city: {currentCity}, {currentCountry}</h1>
                     <img className="image" alt="weather-image" src={weatherIcon}/>
                     <p>Current weather: { weatherMain } {temp}&#8451;</p>
                     <p>Feels like: {feelsLike}&#8451;</p>
                     <p>Min: {tempMin}&#8451;</p>
                     <p>Max: {tempMax}&#8451;</p>
-                </>
+                </div>
                 )}
             </div>
         </div>
-    </>
+    </Wrapper>
     );
 }
- 
+
+const Wrapper = styled.section`
+    width: 100%;
+    height: 100%;
+
+    .clear-sky {
+        background: url(${clearSky}) no-repeat center;
+        background-size: cover;
+    }
+    
+    .athmosphere {
+        background: url(${athmosphere}) no-repeat center;
+        background-size: cover;
+    }
+    
+    .clouds {
+        background: url(${clouds}) no-repeat center;
+        background-size: cover;
+    }
+
+    .basic {
+        background: url(${basic}) no-repeat center;
+        background-size: cover;
+    }
+
+    .snow {
+        background: url(${snow}) no-repeat center;
+        background-size: cover;
+    }
+
+    .rain {
+        background: url(${rain}) no-repeat center;
+        background-size: cover;
+    }
+
+    .drizzle {
+        background: url(${drizzle}) no-repeat center;
+        background-size: cover;
+    }
+`;
+
 export default GetWeatherInfo;
